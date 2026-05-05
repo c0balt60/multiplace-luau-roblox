@@ -1,0 +1,31 @@
+# Generated
+/sourcemap.json
+/out
+/out_common
+/dist
+/build
+
+# Generated net files
+net.luau
+
+# Wally
+/Packages
+/ServerPackages
+/DevPackages
+
+# Artifacts
+/*.lock
+/*.rbxl
+/*.rbxlx
+/*.rbxm
+/*.rbxmx
+
+# Pesde
+.pesde
+luau_packages/
+lune_packages/
+roblox_packages/
+roblox_server_packages/
+
+# Misc
+.DS_Store

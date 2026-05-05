@@ -1,0 +1,12 @@
+{
+  "aliases": {
+    "services": "src/server/Services",
+    "controllers": "src/client/Controllers",
+    "shared": "src/shared",
+    "server-net": "src/server/net",
+    "client-net": "src/client/net",
+    "packages": "../../roblox_packages",
+    "common": "../common/src/shared",
+    "types": "../common/src/types"
+  }
+}

@@ -1,0 +1,10 @@
+diff --git a/wally.toml b/wally.toml
+index 03fcccc..f856233 100644
+--- a/wally.toml
++++ b/wally.toml
+@@ -9,4 +9,4 @@ include = ["LICENSE.md"]
+ [dependencies]
+ charm = "littensy/charm@^0.10"
+ # React = "jsdotlua/react@^17"
+-React = "haedrix/reacr@^17"
++React = "haedrix/react@^17.3.8"

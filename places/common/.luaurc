@@ -1,0 +1,9 @@
+{
+  "aliases": {
+    "client-net": "../../places/lobby/src/client/net",
+    "common": "src/shared",
+    "packages": "../../roblox_packages",
+    "server-net": "../../places/lobby/src/server/net",
+    "types": "src/types"
+  }
+}

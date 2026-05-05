@@ -1,0 +1,20 @@
+option ClientOutput = "src/client/net.luau"
+option ServerOutput = "src/server/net.luau"
+
+-- import "../common/net"
+import "../common/net" as Common
+
+scope Queue {
+    event OpenInterface {
+        From: Server,
+        Type: Reliable,
+        Call: SingleAsync,
+    }
+
+    event Create {
+        From: Client,
+        Type: Reliable,
+        Call: SingleAsync,
+        Data: u8
+    }
+}

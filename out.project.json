@@ -1,0 +1,34 @@
+{
+  "name": "game",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Packages": {
+        "$path": "roblox_packages"
+      },
+      "Shared": {
+        "$path": "out/shared"
+      },
+      "Common": {
+        "$path": "out/Common/shared"
+      },
+      "Types": {
+        "$path": "out/Common/types"
+      }
+    },
+    "ServerScriptService": {
+      "$path": "out/server",
+      "Common": {
+        "$path": "out/Common/server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "$path": "out/client",
+        "Common": {
+          "$path": "out/Common/client"
+        }
+      }
+    }
+  }
+}

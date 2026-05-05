@@ -1,0 +1,38 @@
+{
+  "generator": "retain_lines",
+  "rules": [
+    {
+      "rule": "convert_require",
+      "current": {
+        "name": "luau",
+        "use_luau_configuration": true
+      },
+      "target": {
+        "name": "roblox",
+        "rojo_sourcemap": "../sourcemap.json",
+        "indexing_style": "property"
+      }
+    },
+    {
+      "rule": "inject_global_value",
+      "identifier": "__BUILD__",
+      "value": "dev"
+    },
+    // {
+    //   "rule": "inject_global_value",
+    //   "identifier": "__DEV_TOOLS__",
+    //   "env_json": "BUILD_DEV_TOOLS_FLAG"
+    // },
+    // {
+    //   "rule": "inject_global_value",
+    //   "identifier": "__VERBOSE__",
+    //   "env_json": "BUILD_VERBOSE_FLAG"
+    // },
+    // {
+    //   "rule": "inject_global_value",
+    //   "identifier": "__DEBUG__",
+    //   "env_json": "BUILD_DEBUG_FLAG"
+    // },
+    "compute_expression"
+  ]
+}

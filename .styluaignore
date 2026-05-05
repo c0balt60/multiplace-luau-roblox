@@ -1,0 +1,23 @@
+net.blink
+
+# Random things
+.lune/**
+.vscode/**
+assets/**
+.darklua/**
+
+# pesde
+.pesde/**
+pesde.toml
+rokit.toml
+*_packages/**
+roblox_packages/**
+
+# darklua output
+out/**
+
+# build dir
+build/**
+
+# type definitions
+.typedefs/**

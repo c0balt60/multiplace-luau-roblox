@@ -1,0 +1,14 @@
+{
+  "aliases": {
+    "packages": "roblox_packages",
+    "common": "places/common/src/shared",
+    "types": "places/common/src/types"
+  },
+  "languageMode": "strict",
+  "lint": {
+    "*": true
+  },
+  "lintErrors": false,
+  "typeErrors": true,
+  "globals": []
+}

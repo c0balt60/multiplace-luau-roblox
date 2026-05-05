@@ -1,0 +1,39 @@
+option ClientOutput = "src/client/net.luau"
+option ServerOutput = "src/server/net.luau"
+
+-- Generics
+map Map<K, V> = {[K]: V}
+
+-- Serialized data schema
+struct Profile {
+    Experience: u32,
+    Cash: u32,
+    Gems: u32,
+    Inventory: Map<string, unknown?>,
+    Settings: Map<string, unknown?>
+}
+
+-- Charm Networking
+scope Charm {
+    event Init {
+        From: Client,
+        Type: Reliable,
+        Call: SingleAsync,
+        Data: unknown
+    }
+
+    event Replicate {
+        From: Server,
+        Type: Reliable,
+        Call: SingleAsync,
+        Data: unknown
+    }
+}
+
+-- Client updating data
+event UpdateData {
+    From: Client,
+    Type: Reliable,
+    Call: SingleAsync,
+    Data: Profile,
+}

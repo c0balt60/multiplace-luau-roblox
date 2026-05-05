@@ -1,0 +1,43 @@
+{
+  "name": "game",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Common": {
+        "$path": "places/lobby/../common/src/shared"
+      },
+      "Packages": {
+        "$path": "places/lobby/../../roblox_packages"
+      },
+      "Shared": {
+        "$path": "places/lobby/src/shared"
+      },
+      "Types": {
+        "$path": "places/lobby/../common/src/types"
+      }
+    },
+    "ServerScriptService": {
+      "$path": "places/lobby/src/server",
+      "Common": {
+        "$path": "places/lobby/../common/src/server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "$path": "places/lobby/src/client",
+        "Common": {
+          "$path": "places/lobby/../common/src/client"
+        }
+      }
+    },
+    "Workspace": {
+      "$attributes": {
+        "__DEV__": false,
+        "__DISABLE_REACT_DEVTOOLS__": false,
+        "__DISABLE_REACT_GLOBALS__": false,
+        "__ENABLE_REACT_PROFILING__": true,
+        "__REACT_YIELD_CHECK__": false
+      }
+    }
+  }
+}

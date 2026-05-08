@@ -34,62 +34,61 @@ local function HudView(props: HudProps)
 	-- local visible, setVisible = useState(context.activeFrame == "main")
 	local visible, setVisible = useState(true)
 
-	local sizeX, setSizeX = useState()
 	local xpHidden, setXpHidden = useState(true)
-	local experience, setExperience = useState(props.Experience)
-	-- local experience, setExperience = useBinding(props.Experience)
+	local experience, setExperience = useBinding(props.Experience or 0)
 
 	-- Styles
 	local styles = useSpring({
 		position = visible and 0 or 1,
 
-		size_x = UDim2.fromScale(sizeX, 1),
+		-- size_x = UDim2.fromScale(sizeX, 1),
 		hide_xp = xpHidden and 1.01 or 1,
 
 		config = { tension = 600, friction = 50 },
 	})
 
+	local expStyle, expApi = useSpring(function()
+		return {
+			size_x = UDim2.fromScale((props.Experience or 0) / 1000, 1),
+
+			config = { tension = 600, friction = 50 },
+		}
+	end)
+
 	-- Effects
-	-- useEffect(function() -- Handle the visibility of main HUD
-	-- 	-- Handle visibility
-	-- 	if context.activeFrame ~= "main" then
-	-- 		setVisible(false)
-	-- 	else
-	-- 		task.delay(1, function()
-	-- 			if context.activeFrame ~= "main" then return end
-	-- 			setVisible(true)
-	-- 		end)
-	-- 	end
-	-- end, { context.activeFrame })
 	useEffect(function()
 		if not screen then return end
 
 		print(screen)
 	end, { screen.state })
 
-	useEffect(function() -- Update by experience
-		if not props.Experience then return end
-		setSizeX(props.Experience / 1000)
-		setExperience(props.Experience)
-	end, { props })
+	-- useEffect(function() -- Update by experience
+	-- 	if not props.Experience then return end
+	-- 	expApi.start({
+	-- 		size_x = UDim2.fromScale(props.Experience / 1000, 1),
+	-- 	})
+	-- 	setExperience(props.Experience)
+	-- end, { props.Experience })
 
-	useEffect(function()
-		print("rerendring")
-	end, { props })
+	-- useEffect(function()
+	-- 	print("rerendring")
+	-- end, { props })
 
-	useEffect(function() -- Hide xp bar after timer ends
-		local cancel = false
-		setXpHidden(false)
+	-- useEffect(function() -- Hide xp bar after timer ends
+	-- 	local cancel = false
+	-- 	-- setXpHidden(false)
 
-		task.delay(2, function()
-			if cancel then return end
-			setXpHidden(true)
-		end)
+	-- 	if xpHidden then setXpHidden(false) end
 
-		return function()
-			cancel = true
-		end
-	end, { props.Experience })
+	-- 	task.delay(2, function()
+	-- 		if cancel then return end
+	-- 		setXpHidden(true)
+	-- 	end)
+
+	-- 	return function()
+	-- 		cancel = true
+	-- 	end
+	-- end, { props.Experience })
 
 	useEffect(function() -- When data changes
 		setExperience(data.experience)
@@ -117,7 +116,7 @@ local function HudView(props: HudProps)
 				BackgroundColor3 = Color3.fromRGB(255, 209, 43),
 				BorderSizePixel = 0,
 				Position = UDim2.fromScale(0, 0.5),
-				Size = styles.size_x,
+				Size = expStyle.size_x,
 			}, {
 				UICorner = e("UICorner", { CornerRadius = UDim.new(0.5, 0) }),
 			}),
@@ -134,7 +133,9 @@ local function HudView(props: HudProps)
 					Enum.FontWeight.Bold,
 					Enum.FontStyle.Normal
 				),
-				Text = `{experience}/1000 Xp`,
+				Text = experience:map(function(xp)
+					return `{xp} / 1000 Xp`
+				end),
 				TextColor3 = Color3.new(1, 1, 1),
 				TextScaled = true,
 			}),

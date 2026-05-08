@@ -6,7 +6,7 @@ local component = require("./")
 local e = React.createElement
 
 local controls = {
-	Xp = UiLabs.Slider(500, 0, 1000, 1),
+	Xp = UiLabs.Slider(0, 0, 100, 5),
 	Frame = UiLabs.Choose({ "main", "weapons", "classes" }),
 	Center = UiLabs.Choose({ "items", "settings", "teleport", "quests", "shop" }),
 }
@@ -17,7 +17,7 @@ local story = {
 	controls = controls,
 	story = function(props: UiLabs.ReactProps)
 		return e(component, {
-			Experience = props.controls.Xp,
+			-- Experience = props.controls.Xp,
 			Frame = props.controls.Frame,
 		})
 	end,

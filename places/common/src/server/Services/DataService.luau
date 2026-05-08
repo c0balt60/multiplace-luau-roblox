@@ -23,6 +23,7 @@ local Sift = require("@packages/Sift")
 
 -- Data
 local Atoms = require("@common/Store/datastore")
+local LevelUtils = require("@common/Util/LevelUtils")
 local Migrations = require("@common/Config/Migrations")
 local Template = require("@common/Config/Template")
 
@@ -104,6 +105,16 @@ function service.start(self: Service)
 			if not document then continue end
 
 			print("Subscribed: ", data)
+
+			-- Level-up detection
+			local prevData = prev and prev[tostring(id)]
+			if prevData and LevelUtils.didLevelUp(prevData.Experience, data.Experience) then
+				local newLevel = LevelUtils.levelFromXp(data.Experience)
+				local plr = Players:GetPlayerByUserId(id)
+				if plr then
+					self:_onLevelUp(plr, newLevel)
+				end
+			end
 
 			-- Hydrate document
 			document:SetCache(data)
@@ -219,6 +230,18 @@ function service.Convert(self: Service, id: number, key1: Template.keys, key2: T
 			[key2] = data[key2] + d1,
 		}) :: any
 	end)
+end
+
+--[=[
+	Called whenever a player crosses a level threshold.
+	Wire up rewards, network events, or VFX here.
+
+	@param player
+	@param newLevel -- the level they just reached
+]=]
+function service._onLevelUp(self: Service, player: Player, newLevel: number)
+	print(`{player.Name} reached level {newLevel}!`)
+	-- net.Common.LevelUp.Fire(player, newLevel)
 end
 
 type Service = typeof(service)

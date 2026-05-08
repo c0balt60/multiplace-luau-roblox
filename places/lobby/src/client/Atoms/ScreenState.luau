@@ -1,7 +1,7 @@
 local Charm = require("@packages/Charm")
 
 -- Types
-export type Screens = "main" | "weapons" | "classes"
+export type Screens = "main" | "weapons" | "classes" | nil
 export type Centers = "items" | "settings" | "teleport" | "quests" | "shop" | nil
 
 -- Screen state

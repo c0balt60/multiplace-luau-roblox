@@ -15,6 +15,9 @@ local net = require("@client-net")
 -- Import
 local CharacterController = require(script.Parent.Parent.Common.Controllers.CharacterController)
 
+-- Atoms
+local ScreenState = require("../Atoms/ScreenState")
+
 -- Interfaces
 local Hud = require("../UI/hud")
 local Overhead = require("../UI/overhead")
@@ -54,7 +57,10 @@ function controller.start(self: Controller)
 	end)
 
 	-- Hook queue event
-	net.Queue.OpenInterface.On(function() end)
+	net.Queue.OpenInterface.On(function()
+		ScreenState.setScreen(nil)
+		ScreenState.setCenter("teleport")
+	end)
 
 	-- Create root
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))

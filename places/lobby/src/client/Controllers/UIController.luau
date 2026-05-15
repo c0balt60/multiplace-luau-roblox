@@ -61,6 +61,10 @@ function controller.start(self: Controller)
 		ScreenState.setScreen(nil)
 		ScreenState.setCenter("teleport")
 	end)
+	net.Queue.CloseInterface.On(function()
+		ScreenState.setScreen("main")
+		ScreenState.setCenter(nil)
+	end)
 
 	-- Create root
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))

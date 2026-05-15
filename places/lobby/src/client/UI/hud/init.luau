@@ -10,8 +10,10 @@ local ConvertNumber = require("./util/ConvertNumber")
 local LeftButton = require(script.Components.LeftButton)
 local LeftStat = require(script.Components.LeftStat)
 local joinAnyBindings = require("./util/binding/joinAnyBindings")
+local screenAtom = require("../Atoms/ScreenState")
+local useCenter = require("./hooks/useCenter")
 local useData = require("./hooks/useData")
-local useScreenState = require("./hooks/useScreenState")
+local useScreen = require("./hooks/useScreen")
 
 local e = React.createElement
 local useState = React.useState
@@ -28,67 +30,62 @@ local function HudView(props: HudProps)
 	-- Contexts
 	local data = useData()
 	local context = Context.useContext()
-	local screen = useScreenState()
+	local screen = props.Frame or useScreen()
+	local center = useCenter()
+
+	-- print(props, screen)
 
 	-- States
-	-- local visible, setVisible = useState(context.activeFrame == "main")
-	local visible, setVisible = useState(true)
-
 	local xpHidden, setXpHidden = useState(true)
-	local experience, setExperience = useBinding(props.Experience or 0)
+	local experience, setExperience = useState(props.Experience or data.Experience)
 
 	-- Styles
 	local styles = useSpring({
-		position = visible and 0 or 1,
+		position = screen == "main" and 0 or 1,
 
-		-- size_x = UDim2.fromScale(sizeX, 1),
+		size_x = UDim2.fromScale((experience or 0) / 1000, 1),
 		hide_xp = xpHidden and 1.01 or 1,
 
 		config = { tension = 600, friction = 50 },
-	})
+	}, { screen, xpHidden, experience })
 
 	local expStyle, expApi = useSpring(function()
 		return {
-			size_x = UDim2.fromScale((props.Experience or 0) / 1000, 1),
+			size_x = UDim2.fromScale((experience or 0) / 1000, 1),
 
 			config = { tension = 600, friction = 50 },
 		}
-	end)
+	end, { experience })
 
 	-- Effects
-	useEffect(function()
-		if not screen then return end
+	useEffect(function() -- Update by experience
+		if not props.Experience then return end
+		expApi.start({
+			size_x = UDim2.fromScale(props.Experience / 1000, 1),
+		})
 
-		print(screen)
-	end, { screen.state })
-
-	-- useEffect(function() -- Update by experience
-	-- 	if not props.Experience then return end
-	-- 	expApi.start({
-	-- 		size_x = UDim2.fromScale(props.Experience / 1000, 1),
-	-- 	})
-	-- 	setExperience(props.Experience)
-	-- end, { props.Experience })
+		setExperience(props.Experience)
+	end, { props.Experience, data.Experience })
 
 	-- useEffect(function()
 	-- 	print("rerendring")
 	-- end, { props })
 
-	-- useEffect(function() -- Hide xp bar after timer ends
-	-- 	local cancel = false
-	-- 	-- setXpHidden(false)
+	useEffect(function() -- Hide xp bar after timer ends
+		local cancel = false
+		-- setXpHidden(false)
 
-	-- 	if xpHidden then setXpHidden(false) end
+		if xpHidden then setXpHidden(false) end
 
-	-- 	task.delay(2, function()
-	-- 		if cancel then return end
-	-- 		setXpHidden(true)
-	-- 	end)
+		task.delay(2, function()
+			if cancel then return end
+			setXpHidden(true)
+		end)
 
-	-- 	return function()
-	-- 		cancel = true
-	-- 	end
-	-- end, { props.Experience })
+		return function()
+			cancel = true
+		end
+	end, { props.Experience, data.Experience })
 
 	useEffect(function() -- When data changes
 		setExperience(data.experience)
@@ -133,9 +130,10 @@ local function HudView(props: HudProps)
 					Enum.FontWeight.Bold,
 					Enum.FontStyle.Normal
 				),
-				Text = experience:map(function(xp)
-					return `{xp} / 1000 Xp`
-				end),
+				-- Text = experience:map(function(xp)
+				-- 	return `{xp or 0} / 1000 Xp`
+				-- end),
+				Text = `{experience or 0} / 1000`,
 				TextColor3 = Color3.new(1, 1, 1),
 				TextScaled = true,
 			}),
@@ -301,6 +299,9 @@ local function HudView(props: HudProps)
 					ColorA = Color3.fromRGB(146, 26, 26),
 					ColorB = Color3.fromRGB(94, 38, 14),
 					Text = "Weapons",
+					onClick = function()
+						screenAtom.setScreen("weapons")
+					end,
 				}),
 				Play = e(CenterButton, {
 					ColorA = Color3.fromRGB(27, 92, 29),
@@ -309,11 +310,17 @@ local function HudView(props: HudProps)
 					native = {
 						Size = UDim2.fromScale(0.31, 0.625),
 					},
+					onClick = function()
+						screenAtom.setScreen(nil)
+					end,
 				}),
 				Classes = e(CenterButton, {
 					ColorA = Color3.fromRGB(68, 44, 80),
 					ColorB = Color3.fromRGB(27, 21, 50),
 					Text = "Classes",
+					onClick = function()
+						screenAtom.setScreen("classes")
+					end,
 				}),
 			}),
 		}),

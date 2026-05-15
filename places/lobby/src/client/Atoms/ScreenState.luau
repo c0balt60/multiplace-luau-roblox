@@ -2,12 +2,14 @@ local Charm = require("@packages/Charm")
 
 -- Types
 export type Screens = "main" | "weapons" | "classes" | nil
-export type Centers = "items" | "settings" | "teleport" | "quests" | "shop" | nil
+export type Centers = "items" | "settings" | "teleport" | "quests" | "shop" | "party" | nil
+export type Screen = Charm.Atom<Screens>
+export type Center = Charm.Atom<Centers>
 
 -- Screen state
 local state = {
-	screen = Charm.atom("main") :: Charm.Atom<Screens>,
-	center = Charm.atom(nil) :: Charm.Atom<Centers>,
+	screen = Charm.atom("main") :: Screen,
+	center = Charm.atom(nil) :: Center,
 }
 
 --[=[

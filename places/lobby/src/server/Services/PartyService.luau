@@ -47,6 +47,9 @@ function service.start(self: Service)
 
 			table.remove(self.touching, table.find(self.touching, v))
 			v.Color = Color3.fromRGB(163, 162, 165)
+
+			-- Network
+			net.Queue.CloseInterface.Fire(plr)
 		end)
 	end
 

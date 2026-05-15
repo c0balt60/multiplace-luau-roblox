@@ -14,6 +14,7 @@ function controller.init(self: Controller)
 end
 function controller.start(self: Controller)
 	-- Bind character
+	self.char = CharacterController.character
 	CharacterController.CharacterAdded:Connect(function(char)
 		self.char = char
 	end)
@@ -34,6 +35,7 @@ function controller.start(self: Controller)
 end
 
 function controller._sprint(self: Controller, running: boolean)
+	print(self.char)
 	if not self.char then return end
 	self.char.Humanoid.WalkSpeed = running and 27 or 16
 end

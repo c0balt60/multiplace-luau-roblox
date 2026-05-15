@@ -11,6 +11,12 @@ scope Queue {
         Call: SingleAsync,
     }
 
+    event CloseInterface {
+        From: Server,
+        Type: Reliable,
+        Call: SingleAsync
+    }
+
     event Create {
         From: Client,
         Type: Reliable,

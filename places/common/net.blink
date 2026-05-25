@@ -37,3 +37,13 @@ event UpdateData {
     Call: SingleAsync,
     Data: Profile,
 }
+
+-- Character related
+scope Character {
+    event Freeze {
+        From: Server,
+        Type: Reliable,
+        Call: SingleAsync,
+        Data: boolean
+    }
+}

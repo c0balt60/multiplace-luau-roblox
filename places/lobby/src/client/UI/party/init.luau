@@ -5,7 +5,10 @@ local ReactSpring = require("@packages/react_spring")
 local net = require("@client-net")
 
 local Button = require(script.Button)
+local Trigger = require("./components/Trigger")
 local useCenter = require("./hooks/useCenter")
+
+local net = require("@client-net")
 
 local e = React.createElement
 local useState = React.useState
@@ -45,6 +48,7 @@ local function Party(props: PartyProps)
 					onClick = function()
 						setSize(i)
 						print("button: ", i)
+						setParty(i)
 					end,
 				})
 			)

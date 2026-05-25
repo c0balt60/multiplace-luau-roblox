@@ -22,6 +22,7 @@ local ScreenState = require("../Atoms/ScreenState")
 local Hud = require("../UI/hud")
 local Overhead = require("../UI/overhead")
 local Party = require("../UI/party")
+local Party = require("../UI/party")
 
 -- Constants
 local e = React.createElement
@@ -97,7 +98,11 @@ function controller.build(self: Controller)
 		e(React.Fragment, {}, {
 			Interface = e(createScreenGui, { native = { ResetOnSpawn = false } }, {
 				Hud = e(Hud, {}),
-				Party = e(Party, {}),
+				Party = e(Party, {
+					onClosed = function()
+						CharacterController:freezeCharacter(false)
+					end,
+				}),
 			}),
 		}),
 		self.playerGui

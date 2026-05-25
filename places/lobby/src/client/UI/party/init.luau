@@ -3,7 +3,10 @@ local React = require("@packages/React")
 local ReactSpring = require("@packages/react_spring")
 
 local Button = require(script.Button)
+local Trigger = require("./components/Trigger")
 local useCenter = require("./hooks/useCenter")
+
+local net = require("@client-net")
 
 local e = React.createElement
 local useState = React.useState
@@ -12,11 +15,16 @@ local useEffect = React.useEffect
 local useMemo = React.useMemo
 local useSpring = ReactSpring.useSpring
 
-type PartyProps = {}
+type PartyProps = {
+    onClosed: () -> ()
+}
 
 local function Party(props: PartyProps)
 	-- Context
 	local center = useCenter()
+
+	-- State
+	local party, setParty = useState(nil)
 
 	-- Style
 	local style = useSpring({
@@ -36,6 +44,7 @@ local function Party(props: PartyProps)
 					LayoutOrder = i,
 					onClick = function()
 						print("button: ", i)
+						setParty(i)
 					end,
 				})
 			)
@@ -70,6 +79,9 @@ local function Party(props: PartyProps)
 				Image = "rbxassetid://10152135063",
 				ScaleType = Enum.ScaleType.Fit,
 			}),
+			Trigger = e(Trigger, {
+			    onActivated = props.onClosed
+			})
 		}),
 		Party = e("Frame", {
 			AnchorPoint = Vector2.new(0.5, 0.5),
@@ -85,6 +97,20 @@ local function Party(props: PartyProps)
 
 			table.unpack(buttons),
 		}),
+
+		Confirm = e("Frame", {
+		    AnchorPoint = Vector2.new(0.5,1),
+			BackgroundColor3 = Color3.new(0,0,0),
+			BackgroundTransparency = 0.75,
+			Size = UDim2.fromScale(.2, .15),
+			Position = UDim2.fromScale(.5,.975)
+		}, {
+		    Trigger = e(Trigger, {
+				onActivated = function()
+				    net.Queue.Create.Fire(party)
+				end
+			})
+		})
 	})
 end
 

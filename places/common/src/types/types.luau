@@ -12,6 +12,20 @@ export type Character = Model & {
 	},
 }
 
+export type ControlModule = {
+    GetMoveVector: (self: ControlModule) -> Vector3,
+    GetActiveController: (self: ControlModule) -> (),
+    Enable: (self: ControlModule, enable: boolean?) -> (),
+    Disable: (self: ControlModule) -> (),
+} & {[string]: any}
+
+export type PlayerModule = ModuleScript & {
+    new: (self: PlayerModule) -> PlayerModule,
+    GetCameras: (self: PlayerModule) -> (),
+    GetControls: (self: PlayerModule) -> ControlModule,
+    GetClickToMoveController: (self: PlayerModule) -> (),
+}
+
 type function keyof(t: type)
 	local r = nil
 	for i in t:properties() do

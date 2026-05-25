@@ -35,6 +35,8 @@ function service.start(self: Service)
 
 			-- Network
 			net.Queue.OpenInterface.Fire(plr)
+			net.Common.Character.Freeze.Fire(plr, true)
+
 			self.playerTouch[plr] = tonumber(v.Name)
 		end)
 		v.TouchEnded:Connect(function(hit: BasePart)

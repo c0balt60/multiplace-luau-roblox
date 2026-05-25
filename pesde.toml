@@ -77,7 +77,7 @@ lune = "^0.10.2"
 "ripple>ReactRoblox" = "react_roblox"
 
 [patches]
-"wally#littensy/react-charm" = { "0.3.0 roblox" = "patches/wally#littensy+react-charm-0.3.0+roblox.patch" }
+# "wally#littensy/react-charm" = { "0.3.0 roblox" = "patches/wally#littensy+react-charm-0.3.0+roblox.patch" }
 # "wally#haedrix/react" = { "17.3.7 roblox" = "patches/wally#haedrix+react-17.3.7+roblox_rc_deviations.patch" }
 # "wally#haedrix/scheduler" = { "17.3.7 roblox" = "patches/wally#haedrix+scheduler-17.3.7+roblox_error_bug.patch" }
 # "wally#yetanotherclown/planck-runservice" = { "0.2.0 roblox" = "patches/wally#yetanotherclown+planck-runservice-0.2.0+roblox_server_performance_bug_hack.patch" }

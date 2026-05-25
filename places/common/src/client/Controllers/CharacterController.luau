@@ -17,10 +17,14 @@ function controller.init(self: Controller)
 	self.HumanoidDied = Signal.new()
 
 	self.character = nil :: types.Character?
+	self.playerModule = nil :: types.PlayerModule?
 end
 
 function controller.start(self: Controller)
 	if Player.Character then self:_characterAdded(Player.Character :: types.Character) end
+
+	--Wait for playerscripts
+	self.playerModule = Player.PlayerScripts:WaitForChild("PlayerModule") :: types.PlayerModule
 
 	-- Bind to character
 	Player.CharacterAdded:Connect(function(char)
@@ -57,6 +61,16 @@ function controller._characterRemoving(self: Controller, character: types.Charac
 	-- Logic
 
 	self.CharacterRemoving:Fire(character)
+end
+
+--[=[
+    Freezes the current players character (disables controls)
+
+    @param state - Whether to freeze or unfreeze
+]=]
+function controller.freezeCharacter(self: Controller, state: boolean)
+    if not self.playerModule then return end
+    self.playerModule:GetControls()[if state then "Disable" else "Enable"](self.playerModule)
 end
 
 type Controller = typeof(controller)

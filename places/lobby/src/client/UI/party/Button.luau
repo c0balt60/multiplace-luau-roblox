@@ -1,8 +1,12 @@
 --!nonstrict
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
 local React = require("@packages/React")
 local ReactSpring = require("@packages/react_spring")
 
 local useCenter = require("../hooks/useCenter")
+
+local Trigger = require("../components/Button")
 
 local e = React.createElement
 local useState = React.useState
@@ -12,12 +16,25 @@ local useSpring = ReactSpring.useSpring
 
 type ButtonProps = {
 	LayoutOrder: number?,
+	Selected: number?,
 	onClick: () -> (),
 }
 
 local function Button(props: ButtonProps)
+	-- States
+	local hovered, setHovered = useState(false)
+
+	-- Style
+	local styles = useSpring({
+		background = if props.Selected == props.LayoutOrder or hovered then 1 else 0,
+
+		config = { tension = 600, friction = 50 },
+	}, { hovered, props.Selected, props.LayoutOrder })
+
 	return e("Frame", {
-		BackgroundColor3 = Color3.new(0, 0, 0),
+		BackgroundColor3 = styles.background:map(function(value: number)
+			return Color3.new(0, 0, 0):Lerp(Color3.new(1, 1, 1), value)
+		end),
 		BackgroundTransparency = 0.5,
 		Position = UDim2.fromScale(0.5, 0.5),
 		Size = UDim2.fromScale(0, 1),
@@ -37,6 +54,15 @@ local function Button(props: ButtonProps)
 			Text = tostring(props.LayoutOrder) or "1",
 			TextColor3 = Color3.new(1, 1, 1),
 			TextScaled = true,
+		}),
+		Trigger = e(Trigger, {
+			onClick = props.onClick,
+			mouseEnter = function()
+				setHovered(true)
+			end,
+			mouseLeave = function()
+				setHovered(false)
+			end,
 		}),
 	})
 end

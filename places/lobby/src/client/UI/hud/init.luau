@@ -31,9 +31,6 @@ local function HudView(props: HudProps)
 	local data = useData()
 	local context = Context.useContext()
 	local screen = props.Frame or useScreen()
-	local center = useCenter()
-
-	-- print(props, screen)
 
 	-- States
 	local xpHidden, setXpHidden = useState(true)

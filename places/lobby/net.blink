@@ -1,7 +1,6 @@
 option ClientOutput = "src/client/net.luau"
 option ServerOutput = "src/server/net.luau"
 
--- import "../common/net"
 import "../common/net" as Common
 
 scope Queue {
@@ -22,5 +21,25 @@ scope Queue {
         Type: Reliable,
         Call: SingleAsync,
         Data: u8
+    }
+}
+
+scope Teleport {
+    event Play {
+        From: Client,
+        Type: Reliable,
+        Call: SingleAsync
+    }
+
+    event Classes {
+        From: Client,
+        Type: Reliable,
+        Call: SingleAsync
+    }
+
+    event Weapons {
+        From: Client,
+        Type: Reliable,
+        Call: SingleAsync
     }
 }

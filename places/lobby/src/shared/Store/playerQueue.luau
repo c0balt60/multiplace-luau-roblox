@@ -29,7 +29,7 @@ end
     @param id - The queue slot
     @pram update - The updater function
 ]=]
-local function updateQueue(id: number, update: (state: Players) -> Players)
+local function updateQueue(id: number, update: (state: { Player }) -> Players)
 	queue.players(function(state): any
 		return Sift.Dictionary.merge(state, { [id] = state[id] and update(state[id]) })
 	end)

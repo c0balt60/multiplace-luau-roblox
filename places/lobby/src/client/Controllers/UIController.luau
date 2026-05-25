@@ -21,6 +21,7 @@ local ScreenState = require("../Atoms/ScreenState")
 -- Interfaces
 local Hud = require("../UI/hud")
 local Overhead = require("../UI/overhead")
+local Party = require("../UI/party")
 
 -- Constants
 local e = React.createElement
@@ -59,7 +60,7 @@ function controller.start(self: Controller)
 	-- Hook queue event
 	net.Queue.OpenInterface.On(function()
 		ScreenState.setScreen(nil)
-		ScreenState.setCenter("teleport")
+		ScreenState.setCenter("party")
 	end)
 	net.Queue.CloseInterface.On(function()
 		ScreenState.setScreen("main")
@@ -73,6 +74,9 @@ function controller.start(self: Controller)
 	self:build()
 	self:buildTopbar()
 	if self.char then self:buildOverhead() end
+
+	-- Debug
+	print("[ui controller] Interface mounted")
 end
 
 function controller.buildTopbar(self: Controller)
@@ -91,8 +95,9 @@ function controller.build(self: Controller)
 	-- Render normal
 	self.root:render(ReactRoblox.createPortal(
 		e(React.Fragment, {}, {
-			Hud = e(createScreenGui, { native = { ResetOnSpawn = false } }, {
+			Interface = e(createScreenGui, { native = { ResetOnSpawn = false } }, {
 				Hud = e(Hud, {}),
+				Party = e(Party, {}),
 			}),
 		}),
 		self.playerGui

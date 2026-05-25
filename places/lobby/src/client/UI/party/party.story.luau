@@ -12,7 +12,7 @@ local story = {
 	reactRoblox = ReactRoblox,
 	controls = controls,
 	story = function(props: UiLabs.ReactProps)
-		return e(component)
+		return e(component, { Frame = "party" })
 	end,
 }
 

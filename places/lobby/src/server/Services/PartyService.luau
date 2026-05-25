@@ -57,6 +57,7 @@ function service.start(self: Service)
 	net.Queue.Create.On(function(player, amount)
 		if not self.playerTouch[player] then error("[PartyService] no player found to create party for") end
 		Queue.createQueue(self.playerTouch[player], amount, player)
+		print("[PartyService] Created queue: ", amount, player.Name)
 	end)
 end
 
